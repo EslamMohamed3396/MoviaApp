@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eslam.moviaapp">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
@@ -18,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Details_Movie"
+            android:name=".Details_Activity"
             android:parentActivityName=".MainActivity"></activity>
     </application>
 

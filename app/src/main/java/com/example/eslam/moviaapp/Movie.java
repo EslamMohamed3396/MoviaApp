@@ -1,7 +1,11 @@
 package com.example.eslam.moviaapp;
 
 public class Movie {
-    private String mOriginal_Title, mMovie_poster, mOverview, mRating, mRelease_date;
+    private String mOriginal_Title;
+    private String mMovie_poster;
+    private String mOverview;
+    private String mRating;
+    private String mRelease_date;
 
     public Movie(String mOriginal_Title, String mMovie_poster, String mOverview, String mRating, String mRelease_date) {
         this.mOriginal_Title = mOriginal_Title;

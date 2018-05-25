@@ -19,13 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class NetworkUtils {
-    private final static String BASE_URL_MOVIE = "http://api.themoviedb.org/3/discover/movie";
-    private final static String KEY_API = "Please Write Your KEY_API";
+    private final static String BASE_URL_MOVIE = "https://api.themoviedb.org/3/movie/";
     private final static String API = "api_key";
-    private final static String SORTED_BY = "sort_by";
-    private final static String VOTE_AVERAGE = "vote_average.desc";
-    private final static String POPULAR = "popularity.desc";
+    private final static String KEY_API = BuildConfig.MY_MOVIE_DB_API_KEY;
     private final static String IMAGE_URL_COMPELTE = "https://image.tmdb.org/t/p/original/";
+
 
     private static final int READTIMEOUT = 10000;
     private static final int CONNECTTIMEOUT = 15000;
@@ -39,11 +37,10 @@ public final class NetworkUtils {
     private final static String VOTE = "vote_average";
     private final static String DATE = "release_date";
 
-
     public static URL createURL(String mUrl) {
         Uri builtUri = Uri.parse(BASE_URL_MOVIE).buildUpon()
-                .appendQueryParameter(API, KEY_API)
-                .appendQueryParameter(SORTED_BY, mUrl)
+                .appendPath(mUrl)
+                .appendQueryParameter(API,KEY_API)
                 .build();
         URL url = null;
         try {
