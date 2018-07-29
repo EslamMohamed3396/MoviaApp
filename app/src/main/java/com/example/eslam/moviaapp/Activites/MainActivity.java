@@ -1,4 +1,4 @@
-package com.example.eslam.moviaapp;
+package com.example.eslam.moviaapp.Activites;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,7 +10,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.eslam.moviaapp.R;
+
 import android.widget.Toast;
+
+import com.example.eslam.moviaapp.Adapters.movieAdapterRecycler;
+import com.example.eslam.moviaapp.Models.Movie;
+import com.example.eslam.moviaapp.Utils.ExtractData.ExtractDataFromJsonUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     private RecyclerView recyclerView;
     private movieAdapterRecycler adapterRecycler;
 
-
     private final static String VOTE_AVERAGE = "top_rated";
     private final static String POPULAR = "popular";
 
@@ -27,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = findViewById(R.id.recycler_main);
         recyclerView.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
@@ -47,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         Toast.makeText(this, "Please Open You InterNet", Toast.LENGTH_SHORT).show();
         return false;
     }
-
 
     private void load_Movies() {
         if (check_The_InterNet()) {
@@ -72,14 +79,15 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     @Override
     public void onClick(Movie details) {
         Intent intent = new Intent(MainActivity.this, Details_Activity.class);
-        intent.putExtra("title", details.getmOriginal_Title());
+        intent.putExtra("id", details.getmId());
         intent.putExtra("poster", details.getmMovie_poster());
+        intent.putExtra("title", details.getmOriginal_Title());
+        intent.putExtra("back", details.getmBackGround());
         intent.putExtra("over", details.getmOverview());
         intent.putExtra("rate", details.getmRating());
         intent.putExtra("date", details.getmRelease_date());
         startActivity(intent);
     }
-
     public class MovieAsync extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
                 return null;
             }
 
-            List<Movie> movieRequestUrl = NetworkUtils.ExtractMovieData(strings[0]);
+            List<Movie> movieRequestUrl = ExtractDataFromJsonUtils.ExtractMovieData(strings[0]);
             return movieRequestUrl;
         }
 
@@ -115,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
                 return true;
             case R.id.vote:
                 load_High_Rated_Movie();
+                return true;
+            case R.id.fav:
+                startActivity(new Intent(this, MainFavorite.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".Activites.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Details_Activity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:name=".Activites.Details_Activity"
+            android:parentActivityName=".Activites.MainActivity" />
+        <activity android:name=".Activites.Favorite" />
+        <activity android:name=".Activites.MainFavorite"/>
     </application>
 
 </manifest>

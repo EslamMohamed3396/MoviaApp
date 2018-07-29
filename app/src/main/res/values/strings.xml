@@ -7,4 +7,12 @@
     <string name="release_date">Release Date : </string>
     <string name="popular">Popular</string>
     <string name="vote">Highest Rate </string>
+    <string name="contentDescription_ratebar">This is Rate for The Movie  </string>
+    <string name="review">Review : </string>
+    <string name="no_review">This Movie has No Review </string>
+    <string name="author">Author :</string>
+    <string name="fav">Favorite</string>
+    <string name="home">Home</string>
+    <string name="add_fav">Added To Favorite</string>
+    <string name="delete_fav">Deleted From Favorite</string>
 </resources>

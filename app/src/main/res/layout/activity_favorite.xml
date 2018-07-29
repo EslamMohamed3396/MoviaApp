@@ -5,11 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".Activites.Details_Activity">
+    tools:context=".Activites.Favorite">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/im_background_fav"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/google_certification" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
@@ -23,16 +34,15 @@
             android:elevation="16dp"
             app:cardElevation="@dimen/margin_16"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/im_background">
+            app:layout_constraintTop_toBottomOf="@id/im_background_fav">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBackground">
 
-
                 <ImageView
-                    android:id="@+id/im_poster_details"
+                    android:id="@+id/im_poster_details_fav"
                     android:layout_width="100dp"
                     android:layout_height="150dp"
                     android:contentDescription="@string/contentDescription"
@@ -43,7 +53,7 @@
 
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/title_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24dp"
@@ -51,7 +61,7 @@
                     android:layout_marginTop="16dp"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/im_poster_details"
+                    app:layout_constraintStart_toEndOf="@+id/im_poster_details_fav"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/title" />
 
@@ -68,12 +78,12 @@
                     android:progressDrawable="@drawable/ic_star_rate"
                     android:stepSize="0.5"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/im_poster_details"
-                    app:layout_constraintTop_toBottomOf="@+id/date"
+                    app:layout_constraintStart_toEndOf="@+id/im_poster_details_fav"
+                    app:layout_constraintTop_toBottomOf="@+id/date_fav"
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
-                    android:id="@+id/rate"
+                    android:id="@+id/rate_fav"
                     android:layout_width="53dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="48dp"
@@ -86,7 +96,7 @@
                     tools:text="@string/rate" />
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/date_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="36dp"
@@ -95,61 +105,39 @@
                     android:text="@string/release_date"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size"
-                    app:layout_constraintStart_toEndOf="@+id/im_poster_details"
-                    app:layout_constraintTop_toBottomOf="@+id/title" />
+                    app:layout_constraintStart_toEndOf="@+id/im_poster_details_fav"
+                    app:layout_constraintTop_toBottomOf="@+id/title_fav" />
 
                 <ImageView
-                    android:id="@+id/im_save"
+                    android:id="@+id/im_delete"
                     android:layout_width="60dp"
                     android:layout_height="50dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
                     android:tint="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                    app:srcCompat="@drawable/ic_favorite_black_24dp" />
             </android.support.constraint.ConstraintLayout>
-
-
         </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:id="@+id/im_background"
-            android:layout_width="match_parent"
-            android:layout_height="196dp"
-            android:contentDescription="@string/contentDescription"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/google_certification" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_trailer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:id="@+id/tv_over"
+            android:id="@+id/tv_over_fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="32dp"
             android:text="@string/over_view"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_trailer" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:id="@+id/over"
+            android:id="@+id/over_fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -158,29 +146,8 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_over"
+            app:layout_constraintTop_toBottomOf="@id/tv_over_fav"
             tools:text="@string/over_view" />
-
-        <TextView
-            android:id="@+id/review"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="25dp"
-            android:text="@string/review"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/over" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_review"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review" />
 
 
     </android.support.constraint.ConstraintLayout>

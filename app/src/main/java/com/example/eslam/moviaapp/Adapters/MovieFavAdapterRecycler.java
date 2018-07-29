@@ -1,4 +1,4 @@
-package com.example.eslam.moviaapp;
+package com.example.eslam.moviaapp.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.eslam.moviaapp.Models.Movie;
+import com.example.eslam.moviaapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class movieAdapterRecycler extends RecyclerView.Adapter<movieAdapterRecycler.MovieRecyclerHolder> {
+public class MovieFavAdapterRecycler extends RecyclerView.Adapter<MovieFavAdapterRecycler.MovieRecyclerHolder> {
     private List<Movie> data;
 
     private final MovieAdapterOnClick movieAdapterOnClick;
@@ -20,7 +22,7 @@ public class movieAdapterRecycler extends RecyclerView.Adapter<movieAdapterRecyc
         void onClick(Movie details);
     }
 
-    public movieAdapterRecycler(MovieAdapterOnClick movieAdapterOnClick, List<Movie> data) {
+    public MovieFavAdapterRecycler(MovieAdapterOnClick movieAdapterOnClick, List<Movie> data) {
         this.movieAdapterOnClick = movieAdapterOnClick;
         this.data = data;
     }
@@ -28,7 +30,7 @@ public class movieAdapterRecycler extends RecyclerView.Adapter<movieAdapterRecyc
     @NonNull
     @Override
     public MovieRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_movie_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_movie_item_fav, parent, false);
         MovieRecyclerHolder movieRecyclerHolder = new MovieRecyclerHolder(view);
         return movieRecyclerHolder;
     }
@@ -49,9 +51,10 @@ public class movieAdapterRecycler extends RecyclerView.Adapter<movieAdapterRecyc
 
     public class MovieRecyclerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView poster;
+
         public MovieRecyclerHolder(View itemView) {
             super(itemView);
-            poster = itemView.findViewById(R.id.poster);
+            poster = itemView.findViewById(R.id.poster_fav);
             itemView.setOnClickListener(this);
         }
 

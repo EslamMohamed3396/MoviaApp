@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".Activites.MainActivity">
+    tools:context=".Activites.MainFavorite">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_main"
+        android:id="@+id/recycler_main_fav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>
