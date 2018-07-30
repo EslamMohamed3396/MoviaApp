@@ -63,7 +63,6 @@ public class Details_Activity extends AppCompatActivity {
     private DataBaseMovie dataBaseMovie;
     private Intent intent;
 
-
     LoaderManager.LoaderCallbacks<List<Trailer>> mTrailerCallbacks = new LoaderManager.LoaderCallbacks<List<Trailer>>() {
         @Override
         public Loader<List<Trailer>> onCreateLoader(int i, Bundle bundle) {
@@ -121,9 +120,7 @@ public class Details_Activity extends AppCompatActivity {
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSave.setImageResource(R.drawable.ic_favorite_black_24dp);
                 addMovie();
-                Toast.makeText(Details_Activity.this,getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -151,22 +148,16 @@ public class Details_Activity extends AppCompatActivity {
 
     private void addMovie() {
 
-        final Movie movie = new Movie(SID, mTitle, mPoster, mOverView, mRate, mDate, mBackground);
-        AppExecutor.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                dataBaseMovie.movieDao().insertMovie(movie);
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        finish();
-    }
+            final Movie movie = new Movie(SID, mTitle, mPoster, mOverView, mRate, mDate, mBackground);
+            AppExecutor.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    dataBaseMovie.movieDao().insertMovie(movie);
+                }
+            });
+            mSave.setImageResource(R.drawable.ic_favorite_black_24dp);
+            Toast.makeText(Details_Activity.this,getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT).show();
+        }
 
     private void loadTrailer() {
         trailerAdapterRecycler = new TrailerAdapterRecycler(this, new ArrayList<Trailer>());

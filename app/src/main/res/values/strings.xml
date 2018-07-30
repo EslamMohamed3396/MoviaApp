@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoviaApp</string>
+    <string name="app_name">Movie App</string>
     <string name="contentDescription">This is poster for The Movie</string>
     <string name="title">Title : </string>
     <string name="over_view">OverView : </string>
