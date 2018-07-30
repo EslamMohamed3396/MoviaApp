@@ -1,8 +1,8 @@
-<h1>Popular Movies App</h>
+<h1> Popular Movies App </h>
 
 This App Show The Description For The Movies,From Api The MovieDB 
 
-<h4>User Interface - Layout:</h>
+<h4> User Interface - Layout: </h>
 
 -UI contains an element (settings menu) to toggle the sort order of the movies by: most popular, highest rated.
 
@@ -14,7 +14,7 @@ This App Show The Description For The Movies,From Api The MovieDB
 
 -Movie Details layout contains a section for displaying trailer videos and user reviews.
 
-<h4>User Interface - Function :</h>
+<h4> User Interface - Function : </h>
 
 -When a user changes the sort criteria (most popular, highest rated, and favorites) the main view gets updated correctly.
 
@@ -24,7 +24,7 @@ This App Show The Description For The Movies,From Api The MovieDB
 
 -In the movies detail screen, a user can tap a button(for example, a star) to mark it as a Favorite.
 
-<h4>Network API Implementation :</h>
+<h4> Network API Implementation : </h>
 
 -In a background thread, app queries the /movie/popular or /movie/top_rated API for the sort criteria specified in the settings menu.
 
@@ -32,7 +32,7 @@ This App Show The Description For The Movies,From Api The MovieDB
 
 -App requests for user reviews for a selected movie via the /movie/{id}/reviews endpoint in a background thread and displays those details when the user selects a movie.
 
-<h4>Data Persistence :</h>
+<h4> Data Persistence : </h>
 
 It is made with latest Android Architecture Components like LiveData, and Room 
 
