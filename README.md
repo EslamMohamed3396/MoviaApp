@@ -35,3 +35,10 @@ This App Show The Description For The Movies,From Api The MovieDB
 <h4>Data Persistence :</h>
 
 It is made with latest Android Architecture Components like LiveData, and Room 
+
+
+<h4> Steps to run the app : </h4>
+
+In order to run this Application , an API KEY is Needed which can be obtained from <a href="https://www.themoviedb.org/">MovieDB</a> for API Calling.
+Please add the API_KEY in gradle.properties file for build.gradle
+
