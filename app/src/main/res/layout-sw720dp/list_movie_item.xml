@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorBackground"
+    android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="392dp"
+            android:layout_height="300dp"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop" />
+
+</GridLayout>

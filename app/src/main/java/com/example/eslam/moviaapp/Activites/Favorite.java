@@ -38,7 +38,7 @@ public class Favorite extends AppCompatActivity {
     private String mOverView;
     private String mRate;
     private String mDate;
-    private static String SID;
+    private String SID;
 
 
     private Intent intent;
@@ -56,7 +56,7 @@ public class Favorite extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 delteMovie();
-                Toast.makeText(Favorite.this,getResources().getString(R.string.delete_fav), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Favorite.this, getResources().getString(R.string.delete_fav), Toast.LENGTH_SHORT).show();
 
             }
         });

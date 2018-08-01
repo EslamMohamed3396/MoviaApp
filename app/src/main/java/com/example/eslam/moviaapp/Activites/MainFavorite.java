@@ -2,12 +2,15 @@ package com.example.eslam.moviaapp.Activites;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import com.example.eslam.moviaapp.Adapters.MovieFavAdapterRecycler;
@@ -15,6 +18,7 @@ import com.example.eslam.moviaapp.Adapters.movieAdapterRecycler;
 import com.example.eslam.moviaapp.DataBase.DataBaseMovie;
 import com.example.eslam.moviaapp.Models.Movie;
 import com.example.eslam.moviaapp.R;
+import com.example.eslam.moviaapp.ViewModel.MainFavViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,7 @@ public class MainFavorite extends AppCompatActivity implements MovieFavAdapterRe
     private DataBaseMovie dataBaseMovie;
     private RecyclerView recyclerView;
     private MovieFavAdapterRecycler adapterRecycler;
+    private int mSpanCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +35,28 @@ public class MainFavorite extends AppCompatActivity implements MovieFavAdapterRe
         setContentView(R.layout.activity_main_favorite);
 
         dataBaseMovie = DataBaseMovie.getINSTANCE(getApplicationContext());
-
+        mSpanCount=calculateNoOfColumns(this);
         recyclerView = findViewById(R.id.recycler_main_fav);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, mSpanCount, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapterRecycler = new MovieFavAdapterRecycler(this, new ArrayList<Movie>());
         recyclerView.setAdapter(adapterRecycler);
 
         retriveData();
     }
-
+    public static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int scalingFactor = 200;
+        int noOfColumns = (int) (dpWidth / scalingFactor);
+        if(noOfColumns < 2)
+            noOfColumns = 2;
+        return noOfColumns;
+    }
     private void retriveData() {
-        LiveData<List<Movie>> loadAllMovie = dataBaseMovie.movieDao().loadAllMovie();
-        loadAllMovie.observe(this, new Observer<List<Movie>>() {
+        MainFavViewModel mainFavViewModel = ViewModelProviders.of(this).get(MainFavViewModel.class);
+        mainFavViewModel.getMovie().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
                 if (movies != null && !movies.isEmpty()) {

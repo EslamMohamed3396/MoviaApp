@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class Details_Activity extends AppCompatActivity {
     private TextView mRateText;
     private TextView mDateText;
     private ImageView mSave;
-
+    private ScrollView mScrollView;
 
     private String mTitle;
     private String mBackground;
@@ -127,6 +128,8 @@ public class Details_Activity extends AppCompatActivity {
 
     }
 
+
+
     private void getAndSetData() {
         intent = getIntent();
 
@@ -146,8 +149,24 @@ public class Details_Activity extends AppCompatActivity {
         mDateText.setText(mDate);
     }
 
-    private void addMovie() {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+                new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY()});
+    }
 
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
+        if(position != null)
+            mScrollView.post(new Runnable() {
+                public void run() {
+                    mScrollView.scrollTo(position[0], position[1]);
+                }
+            });
+    }
+
+    private void addMovie() {
             final Movie movie = new Movie(SID, mTitle, mPoster, mOverView, mRate, mDate, mBackground);
             AppExecutor.getInstance().diskIO().execute(new Runnable() {
                 @Override
@@ -181,6 +200,7 @@ public class Details_Activity extends AppCompatActivity {
 
     private void bindWidget() {
         mSave = findViewById(R.id.im_save);
+        mScrollView = findViewById(R.id.scroll_view);
         mBackImage = findViewById(R.id.im_background);
         mPosterImage = findViewById(R.id.im_poster_details);
         mOverText = findViewById(R.id.over);
