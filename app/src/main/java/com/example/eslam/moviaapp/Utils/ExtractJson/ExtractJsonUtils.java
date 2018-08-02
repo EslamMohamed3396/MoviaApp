@@ -38,11 +38,12 @@ public final class ExtractJsonUtils {
         List<Trailer> trailers = new ArrayList<>();
         try {
             JSONObject root = new JSONObject(Stringjson);
+            String id = root.getString(ID);
             JSONArray result = root.getJSONArray(RESULT);
             for (int i = 0; i < result.length(); i++) {
                 JSONObject currentMovie = result.getJSONObject(i);
-                String key = currentMovie.getString(KEY_YOUTUBE);
-                trailers.add(new Trailer(key));
+                String trailer = currentMovie.getString(KEY_YOUTUBE);
+                trailers.add(new Trailer(id, trailer));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -58,13 +59,14 @@ public final class ExtractJsonUtils {
         List<Review> reviews = new ArrayList<>();
         try {
             JSONObject root = new JSONObject(Stringjson);
+            String id = root.getString(ID);
             JSONArray result = root.getJSONArray(RESULT);
             if (result != null && result.length() > 0) {
                 for (int i = 0; i < result.length(); i++) {
                     JSONObject currentMovie = result.getJSONObject(i);
                     String author = currentMovie.getString(AUTHOR);
                     String content = currentMovie.getString(CONTENT);
-                    reviews.add(new Review(author, content));
+                    reviews.add(new Review(id, author, content));
                 }
             } else {
                 reviews.add(new Review());

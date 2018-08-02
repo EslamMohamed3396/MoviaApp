@@ -1,6 +1,6 @@
 package com.example.eslam.moviaapp.Activites;
 
-import android.arch.lifecycle.LiveData;
+
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -14,9 +14,8 @@ import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import com.example.eslam.moviaapp.Adapters.MovieFavAdapterRecycler;
-import com.example.eslam.moviaapp.Adapters.movieAdapterRecycler;
-import com.example.eslam.moviaapp.DataBase.DataBaseMovie;
 import com.example.eslam.moviaapp.Models.Movie;
+import com.example.eslam.moviaapp.Models.Review;
 import com.example.eslam.moviaapp.R;
 import com.example.eslam.moviaapp.ViewModel.MainFavViewModel;
 
@@ -24,18 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFavorite extends AppCompatActivity implements MovieFavAdapterRecycler.MovieAdapterOnClick {
-    private DataBaseMovie dataBaseMovie;
     private RecyclerView recyclerView;
     private MovieFavAdapterRecycler adapterRecycler;
     private int mSpanCount;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_favorite);
 
-        dataBaseMovie = DataBaseMovie.getINSTANCE(getApplicationContext());
-        mSpanCount=calculateNoOfColumns(this);
+        mSpanCount = calculateNoOfColumns(this);
         recyclerView = findViewById(R.id.recycler_main_fav);
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, mSpanCount, GridLayoutManager.VERTICAL, false);
@@ -45,15 +43,17 @@ public class MainFavorite extends AppCompatActivity implements MovieFavAdapterRe
 
         retriveData();
     }
+
     public static int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int scalingFactor = 200;
         int noOfColumns = (int) (dpWidth / scalingFactor);
-        if(noOfColumns < 2)
+        if (noOfColumns < 2)
             noOfColumns = 2;
         return noOfColumns;
     }
+
     private void retriveData() {
         MainFavViewModel mainFavViewModel = ViewModelProviders.of(this).get(MainFavViewModel.class);
         mainFavViewModel.getMovie().observe(this, new Observer<List<Movie>>() {
@@ -62,7 +62,12 @@ public class MainFavorite extends AppCompatActivity implements MovieFavAdapterRe
                 if (movies != null && !movies.isEmpty()) {
                     adapterRecycler.setMovie(movies);
                 } else {
-                    Toast.makeText(MainFavorite.this, "You Don't have Favorite Movie Yet", Toast.LENGTH_LONG).show();
+                    if (mToast != null) {
+                        mToast.cancel();
+                    }
+                    mToast = Toast.makeText(MainFavorite.this, "You Don't have Favorite Movie Yet", Toast.LENGTH_LONG);
+                    mToast.show();
+
                 }
             }
         });

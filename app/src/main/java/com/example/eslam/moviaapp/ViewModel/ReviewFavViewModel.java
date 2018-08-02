@@ -6,20 +6,20 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.example.eslam.moviaapp.DataBase.DataBaseMovie;
-import com.example.eslam.moviaapp.Models.Movie;
+import com.example.eslam.moviaapp.Models.Review;
 
 import java.util.List;
 
-public class MainFavViewModel extends AndroidViewModel {
-    private LiveData<List<Movie>> movie;
-    public MainFavViewModel(@NonNull Application application) {
+public class ReviewFavViewModel extends AndroidViewModel {
+    private LiveData<List<Review>> review;
+
+    public ReviewFavViewModel(@NonNull Application application) {
         super(application);
         DataBaseMovie dataBaseMovie = DataBaseMovie.getINSTANCE(this.getApplication());
-        movie = dataBaseMovie.movieDao().loadAllMovie();
+        review = dataBaseMovie.movieDao().loadAllReview();
     }
 
-    public LiveData<List<Movie>> getMovie() {
-        return movie;
+    public LiveData<List<Review>> getReview() {
+        return review;
     }
-
 }

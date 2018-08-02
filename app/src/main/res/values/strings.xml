@@ -15,4 +15,5 @@
     <string name="home">Home</string>
     <string name="add_fav">Added To Favorite</string>
     <string name="delete_fav">Deleted From Favorite</string>
+    <string name="added_before">Had been Added before</string>
 </resources>

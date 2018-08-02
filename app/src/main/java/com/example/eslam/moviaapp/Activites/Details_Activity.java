@@ -1,6 +1,8 @@
 package com.example.eslam.moviaapp.Activites;
 
 import android.app.LoaderManager;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
@@ -16,13 +18,12 @@ import com.example.eslam.moviaapp.Models.Review;
 import com.example.eslam.moviaapp.Models.Trailer;
 import com.example.eslam.moviaapp.R;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,6 @@ public class Details_Activity extends AppCompatActivity {
     private String mRate;
     private String mDate;
 
-
     private static String SID;
     private static final int TRAILER_ID = 1;
     private static final int REVIEW_ID = 2;
@@ -63,7 +63,8 @@ public class Details_Activity extends AppCompatActivity {
     private ReviewAdapterRecycler reviewAdapterRecycler;
     private DataBaseMovie dataBaseMovie;
     private Intent intent;
-
+    private boolean isFavorite;
+    private Toast mToast;
     LoaderManager.LoaderCallbacks<List<Trailer>> mTrailerCallbacks = new LoaderManager.LoaderCallbacks<List<Trailer>>() {
         @Override
         public Loader<List<Trailer>> onCreateLoader(int i, Bundle bundle) {
@@ -117,6 +118,7 @@ public class Details_Activity extends AppCompatActivity {
 
         loadTrailer();
         loadReview();
+        isFav();
 
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +130,23 @@ public class Details_Activity extends AppCompatActivity {
 
     }
 
+    private void isFav() {
+        LiveData<List<Movie>> loadAllMovieByID = dataBaseMovie.movieDao().loadAllMovieByID(SID);
+        loadAllMovieByID.observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                if (movies.isEmpty()) {
+                    isFavorite = true;
+                    mSave.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
+                } else {
+                    isFavorite = false;
+                    mSave.setImageResource(R.drawable.ic_favorite_black_24dp);
+                }
+            }
+        });
+
+    }
 
     private void getAndSetData() {
         intent = getIntent();
@@ -152,21 +170,24 @@ public class Details_Activity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntArray("ARTICLE_SCROLL_POSITION",
-                new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY()});
+                new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
-        if(position != null)
+        if (position != null)
             mScrollView.post(new Runnable() {
                 public void run() {
                     mScrollView.scrollTo(position[0], position[1]);
                 }
             });
+        String s = savedInstanceState.getString("id");
+
     }
 
     private void addMovie() {
+        if (isFavorite) {
             final Movie movie = new Movie(SID, mTitle, mPoster, mOverView, mRate, mDate, mBackground);
             AppExecutor.getInstance().diskIO().execute(new Runnable() {
                 @Override
@@ -174,9 +195,43 @@ public class Details_Activity extends AppCompatActivity {
                     dataBaseMovie.movieDao().insertMovie(movie);
                 }
             });
+            addReview();
+            addTrailer();
             mSave.setImageResource(R.drawable.ic_favorite_black_24dp);
-            Toast.makeText(Details_Activity.this,getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT).show();
+
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            mToast = Toast.makeText(this, getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT);
+            mToast.show();
+        } else {
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            mToast = Toast.makeText(this, getResources().getString(R.string.added_before), Toast.LENGTH_SHORT);
+            mToast.show();
         }
+    }
+
+    private void addReview() {
+        final List<Review> review = reviewAdapterRecycler.getData();
+        AppExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                dataBaseMovie.movieDao().insertReview(review);
+            }
+        });
+    }
+
+    private void addTrailer() {
+        final List<Trailer> trailers = trailerAdapterRecycler.getData();
+        AppExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                dataBaseMovie.movieDao().insertTrailer(trailers);
+            }
+        });
+    }
 
     private void loadTrailer() {
         trailerAdapterRecycler = new TrailerAdapterRecycler(this, new ArrayList<Trailer>());

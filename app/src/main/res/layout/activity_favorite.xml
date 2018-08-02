@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scroll_fav"
     android:background="@color/colorBackground"
     tools:context=".Activites.Favorite">
 
@@ -122,6 +123,13 @@
                     app:srcCompat="@drawable/ic_favorite_black_24dp" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailer_fav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
         <TextView
@@ -134,7 +142,7 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_trailer_fav" />
 
         <TextView
             android:id="@+id/over_fav"
@@ -148,6 +156,27 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_over_fav"
             tools:text="@string/over_view" />
+
+        <TextView
+            android:id="@+id/review_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/review"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/over_fav" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_review_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_fav" />
 
 
     </android.support.constraint.ConstraintLayout>

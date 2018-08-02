@@ -7,8 +7,15 @@ import android.content.Context;
 
 import com.example.eslam.moviaapp.Dao.MovieDao;
 import com.example.eslam.moviaapp.Models.Movie;
+import com.example.eslam.moviaapp.Models.Review;
+import com.example.eslam.moviaapp.Models.Trailer;
 
-@Database(entities = {Movie.class},version = 1,exportSchema = false)
+@Database(entities = {
+        Movie.class,
+        Review.class,
+        Trailer.class},
+        version = 1,
+        exportSchema = false)
 public abstract class DataBaseMovie extends RoomDatabase {
 
     private static final Object LOCK = new Object();
@@ -26,5 +33,6 @@ public abstract class DataBaseMovie extends RoomDatabase {
         }
         return sINSTANCE;
     }
+
     public abstract MovieDao movieDao();
 }

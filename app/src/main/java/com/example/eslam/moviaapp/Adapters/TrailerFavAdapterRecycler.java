@@ -10,34 +10,32 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.example.eslam.moviaapp.Models.Review;
-import com.example.eslam.moviaapp.R;
-
 import com.example.eslam.moviaapp.Models.Trailer;
+import com.example.eslam.moviaapp.R;
 
 import java.util.List;
 
 
-public class TrailerAdapterRecycler extends RecyclerView.Adapter<TrailerAdapterRecycler.TrialerRecyclerHolder> {
+public class TrailerFavAdapterRecycler extends RecyclerView.Adapter<TrailerFavAdapterRecycler.TrialerFavRecyclerHolder> {
     private List<Trailer> data;
     private Context context;
 
 
-    public TrailerAdapterRecycler(Context context, List<Trailer> data) {
+    public TrailerFavAdapterRecycler(Context context, List<Trailer> data) {
         this.context = context;
         this.data = data;
     }
 
     @NonNull
     @Override
-    public TrialerRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailr_item, parent, false);
-        TrialerRecyclerHolder movieRecyclerHolder = new TrialerRecyclerHolder(view);
+    public TrialerFavRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item_fav, parent, false);
+        TrialerFavRecyclerHolder movieRecyclerHolder = new TrialerFavRecyclerHolder(view);
         return movieRecyclerHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrialerRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TrialerFavRecyclerHolder holder, int position) {
         Trailer trailer = data.get(position);
         String frameVideo = "<iframe src=\"https://www.youtube.com/embed/" + trailer.getmTrailer() + "\" frameborder=\"0\" allowfullscreen></iframe>";
         holder.webView.loadData(frameVideo, "text/html", "utf-8");
@@ -51,22 +49,18 @@ public class TrailerAdapterRecycler extends RecyclerView.Adapter<TrailerAdapterR
         return data.size();
     }
 
-    public class TrialerRecyclerHolder extends RecyclerView.ViewHolder {
+    public class TrialerFavRecyclerHolder extends RecyclerView.ViewHolder {
         WebView webView;
 
-        public TrialerRecyclerHolder(View itemView) {
+        public TrialerFavRecyclerHolder(View itemView) {
             super(itemView);
-            webView = itemView.findViewById(R.id.web);
+            webView = itemView.findViewById(R.id.web_fav);
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webView.setWebViewClient(new WebViewClient());
         }
 
 
-    }
-
-    public List<Trailer> getData() {
-        return this.data;
     }
 
     public void setMovie(List<Trailer> data) {

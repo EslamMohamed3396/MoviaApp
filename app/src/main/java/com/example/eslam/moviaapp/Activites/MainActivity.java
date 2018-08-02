@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +17,10 @@ import android.view.MenuItem;
 import com.example.eslam.moviaapp.Loaders.LoadersMovie;
 import com.example.eslam.moviaapp.R;
 
-import android.view.View;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.eslam.moviaapp.Adapters.movieAdapterRecycler;
 import com.example.eslam.moviaapp.Models.Movie;
-import com.example.eslam.moviaapp.Utils.ExtractData.ExtractDataFromJsonUtils;
 
 
 import java.util.ArrayList;
