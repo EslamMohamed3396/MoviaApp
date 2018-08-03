@@ -59,6 +59,7 @@ public class Details_Activity extends AppCompatActivity {
     private static final int REVIEW_ID = 2;
     private static final String PATH_TRAILER = "/videos";
     private static final String PATH_REVIEW = "/reviews";
+    private static final String KEY_SCROLL = "ARTICLE_SCROLL_POSITION";
     private TrailerAdapterRecycler trailerAdapterRecycler;
     private ReviewAdapterRecycler reviewAdapterRecycler;
     private DataBaseMovie dataBaseMovie;
@@ -169,20 +170,19 @@ public class Details_Activity extends AppCompatActivity {
 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+        outState.putIntArray(KEY_SCROLL,
                 new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
+        final int[] position = savedInstanceState.getIntArray(KEY_SCROLL);
         if (position != null)
             mScrollView.post(new Runnable() {
                 public void run() {
                     mScrollView.scrollTo(position[0], position[1]);
                 }
             });
-        String s = savedInstanceState.getString("id");
 
     }
 

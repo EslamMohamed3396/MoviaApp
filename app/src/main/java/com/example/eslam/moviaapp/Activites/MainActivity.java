@@ -7,6 +7,8 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import com.example.eslam.moviaapp.Loaders.LoadersMovie;
 import com.example.eslam.moviaapp.R;
 
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.eslam.moviaapp.Adapters.movieAdapterRecycler;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements movieAdapterRecycler.MovieAdapterOnClick {
+
     private RecyclerView recyclerView;
     private movieAdapterRecycler adapterRecycler;
     private int mSpanCount;
@@ -35,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     private final static int LOADERVOTE_AVERAGE = 1;
     private final static int LOADERPOPULAR = 2;
     private GridLayoutManager mLayoutManager;
-
+    private final static String MENU_SELECTED = "selected";
+    private int mSelected = -1;
+    private MenuItem mMenuItem;
     private LoaderManager.LoaderCallbacks<List<Movie>> mLoaderCallbacksPOPULAR = new LoaderManager.LoaderCallbacks<List<Movie>>() {
         @Override
         public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
@@ -76,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         recyclerView = findViewById(R.id.recycler_main);
 
         mSpanCount = calculateNoOfColumns(this);
@@ -87,6 +95,14 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         recyclerView.setAdapter(adapterRecycler);
         load_Popular_Movie();
 
+    }
+
+    private void bindFragment() {
+        FavoriteFragment favFragment = new FavoriteFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.frame_content, favFragment)
+                .commit();
     }
 
     public static int calculateNoOfColumns(Context context) {
@@ -113,16 +129,29 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
 
     private void load_Popular_Movie() {
         if (check_The_InterNet()) {
-            adapterRecycler.setMovie(null);
-            LoaderManager loaderManager=getLoaderManager();
-            loaderManager.initLoader(LOADERPOPULAR,null,mLoaderCallbacksPOPULAR);
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(LOADERPOPULAR, null, mLoaderCallbacksPOPULAR);
         }
     }
 
     private void load_High_Rated_Movie() {
         if (check_The_InterNet()) {
-            LoaderManager loaderManager=getLoaderManager();
-            loaderManager.initLoader(LOADERVOTE_AVERAGE,null,mLoaderCallbacksVOTE_AVERAGE);
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(LOADERVOTE_AVERAGE, null, mLoaderCallbacksVOTE_AVERAGE);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(MENU_SELECTED, mSelected);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            mSelected = savedInstanceState.getInt(MENU_SELECTED);
         }
     }
 
@@ -139,10 +168,28 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         startActivity(intent);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        if (mSelected == -1) {
+            return true;
+        }
+
+        switch (mSelected) {
+            case R.id.popular:
+                mMenuItem = menu.findItem(R.id.popular);
+                load_Popular_Movie();
+                break;
+            case R.id.vote:
+                mMenuItem = menu.findItem(R.id.vote);
+                load_High_Rated_Movie();
+                break;
+
+            case R.id.fav:
+                mMenuItem = menu.findItem(R.id.fav);
+                bindFragment();
+                break;
+        }
         return true;
     }
 
@@ -151,13 +198,16 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         int id = item.getItemId();
         switch (id) {
             case R.id.popular:
+                mSelected = id;
                 load_Popular_Movie();
                 return true;
             case R.id.vote:
-                 load_High_Rated_Movie();
+                mSelected = id;
+                load_High_Rated_Movie();
                 return true;
             case R.id.fav:
-                startActivity(new Intent(this, MainFavorite.class));
+                mSelected = id;
+                bindFragment();
                 return true;
         }
         return super.onOptionsItemSelected(item);
