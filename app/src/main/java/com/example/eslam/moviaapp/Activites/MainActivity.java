@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     private final static String MENU_SELECTED = "selected";
     private int mSelected = -1;
     private MenuItem mMenuItem;
+    FavoriteFragment mFavFragment;
     private LoaderManager.LoaderCallbacks<List<Movie>> mLoaderCallbacksPOPULAR = new LoaderManager.LoaderCallbacks<List<Movie>>() {
         @Override
         public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
@@ -77,12 +78,10 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         recyclerView = findViewById(R.id.recycler_main);
 
@@ -98,10 +97,10 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
     }
 
     private void bindFragment() {
-        FavoriteFragment favFragment = new FavoriteFragment();
+        mFavFragment = new FavoriteFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.frame_content, favFragment)
+                .add(R.id.frame_content, mFavFragment)
                 .commit();
     }
 
@@ -167,7 +166,10 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         intent.putExtra("date", details.getmRelease_date());
         startActivity(intent);
     }
-
+    private void removeFragment()
+    {
+        getSupportFragmentManager().beginTransaction().remove(mFavFragment).commit();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -184,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
                 mMenuItem = menu.findItem(R.id.vote);
                 load_High_Rated_Movie();
                 break;
-
             case R.id.fav:
                 mMenuItem = menu.findItem(R.id.fav);
                 bindFragment();
@@ -199,10 +200,12 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         switch (id) {
             case R.id.popular:
                 mSelected = id;
+                removeFragment();
                 load_Popular_Movie();
                 return true;
             case R.id.vote:
                 mSelected = id;
+                removeFragment();
                 load_High_Rated_Movie();
                 return true;
             case R.id.fav:
