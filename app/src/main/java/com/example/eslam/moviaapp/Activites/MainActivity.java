@@ -166,10 +166,11 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         intent.putExtra("date", details.getmRelease_date());
         startActivity(intent);
     }
-    private void removeFragment()
-    {
+
+    private void removeFragment() {
         getSupportFragmentManager().beginTransaction().remove(mFavFragment).commit();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -200,12 +201,16 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         switch (id) {
             case R.id.popular:
                 mSelected = id;
-                removeFragment();
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 load_Popular_Movie();
                 return true;
             case R.id.vote:
                 mSelected = id;
-                removeFragment();
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 load_High_Rated_Movie();
                 return true;
             case R.id.fav:
