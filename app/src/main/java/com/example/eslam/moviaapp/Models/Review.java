@@ -23,6 +23,7 @@ public class Review {
     @ColumnInfo(name = "content")
     public String mContent = HAS_CONTENT;
 
+
     public static String HAS_CONTENT = "No Content";
 
     @Ignore

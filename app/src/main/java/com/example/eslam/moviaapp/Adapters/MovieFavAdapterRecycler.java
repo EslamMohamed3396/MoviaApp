@@ -65,7 +65,16 @@ public class MovieFavAdapterRecycler extends RecyclerView.Adapter<MovieFavAdapte
             movieAdapterOnClick.onClick(movie);
         }
     }
+    public void clear() {
+        final int size = data.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                data.remove(0);
+            }
 
+            notifyItemRangeRemoved(0, size);
+        }
+    }
     public void setMovie(List<Movie> data) {
         this.data = data;
         notifyDataSetChanged();

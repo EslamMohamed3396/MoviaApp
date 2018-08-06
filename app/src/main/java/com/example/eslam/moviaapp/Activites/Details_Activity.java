@@ -195,8 +195,7 @@ public class Details_Activity extends AppCompatActivity {
                     dataBaseMovie.movieDao().insertMovie(movie);
                 }
             });
-            addReview();
-            addTrailer();
+            addReviewAndTrailer();
             mSave.setImageResource(R.drawable.ic_favorite_black_24dp);
 
             if (mToast != null) {
@@ -213,7 +212,7 @@ public class Details_Activity extends AppCompatActivity {
         }
     }
 
-    private void addReview() {
+    private void addReviewAndTrailer() {
         final List<Review> review = reviewAdapterRecycler.getData();
         AppExecutor.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -221,9 +220,7 @@ public class Details_Activity extends AppCompatActivity {
                 dataBaseMovie.movieDao().insertReview(review);
             }
         });
-    }
 
-    private void addTrailer() {
         final List<Trailer> trailers = trailerAdapterRecycler.getData();
         AppExecutor.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -232,6 +229,7 @@ public class Details_Activity extends AppCompatActivity {
             }
         });
     }
+
 
     private void loadTrailer() {
         trailerAdapterRecycler = new TrailerAdapterRecycler(this, new ArrayList<Trailer>());

@@ -1,6 +1,7 @@
 package com.example.eslam.moviaapp.Activites;
 
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -151,13 +152,15 @@ public class Favorite extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mFavAdabterRecycler);
-        ReviewFavViewModel reviewFavViewModel = ViewModelProviders.of(this).get(ReviewFavViewModel.class);
-        reviewFavViewModel.getReview().observe(this, new Observer<List<Review>>() {
+        LiveData<List<Review>> data = dataBaseMovie.movieDao().loadAllReviewByID(SID);
+        data.observe(this, new Observer<List<Review>>() {
             @Override
             public void onChanged(@Nullable List<Review> reviews) {
                 mFavAdabterRecycler.setMovie(reviews);
+
             }
         });
+
 
     }
 
@@ -166,13 +169,13 @@ public class Favorite extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
         mRecyclerViewTrailer.setLayoutManager(gridLayoutManager);
         mRecyclerViewTrailer.setAdapter(mTrailerfavAdapterRecycler);
-        dataBaseMovie.movieDao().loadAllTrailer().observe(this, new Observer<List<Trailer>>() {
+        LiveData<List<Trailer>> data = dataBaseMovie.movieDao().loadAllTrailerByID(SID);
+        data.observe(this, new Observer<List<Trailer>>() {
             @Override
             public void onChanged(@Nullable List<Trailer> trailers) {
                 mTrailerfavAdapterRecycler.setMovie(trailers);
             }
         });
-
     }
 
     private void delteMovie() {

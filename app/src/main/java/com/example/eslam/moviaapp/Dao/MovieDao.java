@@ -27,6 +27,8 @@ public interface MovieDao {
     @Query("DELETE FROM movie_table WHERE id_Movie = :favMovieId")
     int deleteMovieById(String favMovieId);
 
+    @Query("SELECT * FROM review_table WHERE id_review=:mId")
+    LiveData<List<Review>> loadAllReviewByID(String mId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertReview(List<Review> review);
@@ -37,9 +39,11 @@ public interface MovieDao {
     @Query("DELETE FROM review_table WHERE id_review = :favReviewId")
     int deleteReviewById(String favReviewId);
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTrailer(List<Trailer> trailers);
+
+    @Query("SELECT * FROM trailer_table WHERE id_trailer=:mId")
+    LiveData<List<Trailer>> loadAllTrailerByID(String mId);
 
     @Query("SELECT * FROM trailer_table")
     LiveData<List<Trailer>> loadAllTrailer();

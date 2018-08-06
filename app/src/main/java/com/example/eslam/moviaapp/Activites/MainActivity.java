@@ -181,14 +181,23 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
         switch (mSelected) {
             case R.id.popular:
                 mMenuItem = menu.findItem(R.id.popular);
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 load_Popular_Movie();
                 break;
             case R.id.vote:
                 mMenuItem = menu.findItem(R.id.vote);
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 load_High_Rated_Movie();
                 break;
             case R.id.fav:
                 mMenuItem = menu.findItem(R.id.fav);
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 bindFragment();
                 break;
         }
@@ -215,6 +224,9 @@ public class MainActivity extends AppCompatActivity implements movieAdapterRecyc
                 return true;
             case R.id.fav:
                 mSelected = id;
+                if (mFavFragment != null) {
+                    removeFragment();
+                }
                 bindFragment();
                 return true;
         }
